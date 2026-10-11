@@ -1,5 +1,7 @@
 package service;
 
+import exception.DeviceIdAlreadyExistsException;
+import exception.DeviceIdDoesNotExistException;
 import model.SmartDevice;
 
 import java.util.HashMap;
@@ -7,4 +9,18 @@ import java.util.Map;
 
 public class SmartHome {
     private final Map<Integer, SmartDevice> devices = new HashMap<>();
+
+    public void addDevice(SmartDevice device) {
+        if (devices.containsKey(device.getId())) {
+            throw new DeviceIdAlreadyExistsException();
+        }
+        devices.put(device.getId(), device);
+    }
+
+    public void removeDevice(int id) {
+        if (!devices.containsKey(id)) {
+            throw new DeviceIdDoesNotExistException();
+        }
+        devices.remove(id);
+    }
 }
